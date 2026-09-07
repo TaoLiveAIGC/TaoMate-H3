@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taomate-h3"
+version = "0.1.0"
+description = "A focused direct 480p, 768p, and aligned 1080p streaming inference runtime for MiniMax H3"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = {file = "LICENSE"}
+authors = [{name = "TaoMate-H3 Contributors"}]
+dependencies = [
+  "torch>=2.4",
+  "torchvision>=0.19",
+  "diffusers==0.35.2",
+  "einops>=0.7",
+  "huggingface-hub>=0.34",
+  "numpy>=1.26",
+  "Pillow>=10",
+  "PyYAML>=6",
+  "safetensors>=0.4.5",
+  "tokenizers==0.22.1",
+  "transformers==4.57.6",
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: GPU :: NVIDIA CUDA",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Multimedia :: Video",
+]
+
+[tool.setuptools]
+license-files = ["LICENSE", "NOTICE"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

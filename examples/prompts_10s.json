@@ -1,0 +1,7 @@
+{
+  "prompts": [
+    "integrated_multimodal_description: [Shot 1] Vertical fixed-camera medium shot. The same adult presenter sits at a wooden table in a softly lit studio and holds a plain ceramic cup. Identity, clothing, composition, lighting, background, and object placement remain unchanged. No captions, subtitles, overlays, watermarks, logos, or readable text. The presenter looks into the camera and begins naturally. <d>[Chinese] 大家好，今天想和你分享这只日常使用的陶瓷杯。</d>\n\noverall_soundscape: Clear dry Mandarin speech in a quiet room.\n\nnon_diegetic_music: N/A",
+    "integrated_multimodal_description: [Shot 1] Vertical fixed-camera medium shot. The same adult presenter remains at the same wooden table with the same plain ceramic cup. Identity, clothing, composition, lighting, background, and object placement remain unchanged. No captions, subtitles, overlays, watermarks, logos, or readable text. The presenter lightly touches the handle without lifting the cup. <d>[Chinese] 它的杯口比较圆润，喝水的时候触感很自然。</d>\n\noverall_soundscape: Clear dry Mandarin speech in a quiet room.\n\nnon_diegetic_music: N/A"
+  ],
+  "seeds": [8301, 8301]
+}
