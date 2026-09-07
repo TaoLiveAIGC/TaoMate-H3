@@ -4,6 +4,10 @@
 
 <!-- Add the demo video here. -->
 
+
+https://github.com/user-attachments/assets/15d276f9-02c0-49c6-b98f-98656c36164a
+
+
 <br>
 
 TaoMate-H3 is a low-latency streaming audio-video generation runtime built on
