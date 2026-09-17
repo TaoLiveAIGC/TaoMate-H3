@@ -1,7 +1,7 @@
 # TaoMate-H3
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Model-yellow)](https://huggingface.co/TaoLiveAIGC/TaoMate-H3) 
 
-## Demo Video
+## 🎥 Demo Video
 
 <!-- Add the demo video here. -->
 
@@ -12,13 +12,17 @@ https://github.com/user-attachments/assets/15d276f9-02c0-49c6-b98f-98656c36164a
 <br>
 
 TaoMate-H3 is a low-latency streaming audio-video generation runtime built on
-[MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3). It generates synchronized
+[MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3) **with a 3-step LoRA**. It generates synchronized
 audio and video in small chunks and supports continuous long-form generation at
 480p/768p/1080p resolutions.
 
 Developed by the **[Alibaba TaoLive AIGC Team](https://github.com/TaoLiveAIGC)**. Powered by [MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3).
 
-## Features
+## 🔥 News
+- 🤩2026/09/08: We first migrate MiniMax H3 to [TaoMate](https://github.com/TaoLiveAIGC/TaoMate) (T2AV) for streaming. The new models of complete streaming FL2AV and Ref2AV are on the way. Please stay tuned!❤️
+
+
+## 🚀 Features
 
 - **Three-step LoRA streaming generation** — each small chunk uses three
   Stage3 denoising intervals.
@@ -33,7 +37,16 @@ Developed by the **[Alibaba TaoLive AIGC Team](https://github.com/TaoLiveAIGC)**
 - **Single-node inference** — supports 4 GPUs or 8 GPUs with TP2 and Ulysses
   sequence parallelism.
 
-## Installation
+## 🧱 Model Download
+| Models                |                       Download Link                                           |    Notes                      |
+|-----------------------|-------------------------------------------------------------------------------|-------------------------------|
+| [MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3)        |      🤗 [Huggingface](https://huggingface.co/MiniMaxAI/MiniMax-H3)     | Base model
+| TaoMate-H3 T2AV  |      🤗 [Huggingface](https://huggingface.co/TaoLiveAIGC/TaoMate-H3)         | Our 3-step LoRA weights for T2AV
+| TaoMate-H3 FL2AV       |      **TBD**     |  will be released before 26/10/15
+| TaoMate-H3 Ref2AV |      **TBD**         |  **TBD**
+
+
+## 🛠️Installation
 
 ### Requirements
 
@@ -100,7 +113,7 @@ models/TaoMate-H3/
 └── adapter_model.safetensors
 ```
 
-## Inference
+## ⭐️ Inference
 
 TaoMate-H3 accepts either one prompt through `--prompt` or one prompt per
 five-second block through `--prompt-json`.
@@ -189,6 +202,20 @@ updates.
 TaoMate-H3 is released under the
 [MiniMax H3 Community License Agreement](LICENSE). Use and distribution must
 follow the terms of that license.
+
+## Citation
+If you find our work helpful, feel free to cite us.
+```bibtex
+@misc{taomate2026,
+      title={TaoMate: Anchor-Guided Memory Bridging Evolving and Reference States for Real-Time Audio-Video Digital Human Generation}, 
+      author={Qijun Gan and Chenwei Zhang and Meiguang Jin and Junfeng Ma and Qiu Shen},
+      year={2026},
+      eprint={2607.24359},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2607.24359}, 
+}
+```
 
 ## Acknowledgements
 
