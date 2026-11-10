@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "taomate-h3"
 version = "0.1.0"
-description = "Streaming T2AV and first/last-frame audio-video inference for MiniMax H3"
+description = "Streaming text, first/last-frame and reference audio-video inference for MiniMax H3"
 readme = "README.md"
 requires-python = ">=3.10,<3.12"
 license = {file = "LICENSE"}
@@ -39,8 +39,8 @@ classifiers = [
 license-files = ["LICENSE", "NOTICE"]
 
 [tool.setuptools.packages.find]
-where = ["src"]
-include = ["taomate_h3", "taomate_h3.*"]
+where = ["src", "src/taomate-fl2av/src"]
+include = ["taomate_h3", "taomate_h3.*", "digitalhuman_h3", "digitalhuman_h3.*"]
 namespaces = false
 
 [tool.ruff]

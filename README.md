@@ -1,38 +1,46 @@
 # TaoMate-H3
+
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Model-yellow)](https://huggingface.co/TaoLiveAIGC/TaoMate-H3)  [![ModelScope](https://img.shields.io/badge/ModelScope-Model-white?labelColor=%23EF3D5D)](https://modelscope.ai/models/TaoLiveAIGC/TaoMate-H3)
 
 ## 🎥 Demo Video
-
-<!-- Add the demo video here. -->
-
 
 https://github.com/user-attachments/assets/15d276f9-02c0-49c6-b98f-98656c36164a
 
 
 <br>
 
-TaoMate-H3 is a low-latency streaming audio-video generation runtime built on
-[MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3) **with a 3-step LoRA**. It generates synchronized
-audio and video in small chunks and supports continuous long-form generation at
-480p/768p/1080p resolutions.
+TaoMate-H3 brings three-step streaming generation to
+[MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3). It supports text-to-audio-video
+(T2AV), first/last-frame control (FL2AV), and reference-conditioned audio-video
+generation (Ref2AV) with [TaoMate-R1](https://huggingface.co/TaoLiveAIGC/TaoMate-R1).
 
 Developed by the **[Alibaba TaoLive AIGC Team](https://github.com/TaoLiveAIGC)**. Powered by [MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3).
 
 ## 🔥 News
 
-- 🎉 **2026/11/03: We release [TaoMate-HD](https://taoliveaigc.github.io/TaoMate-HD/) with progressive generation based on TaoMate-H3**, which use coarse-to-fine generation retains fine visual detail with less high-resolution work.
-- 🚀 **2026/10/15: We release [TaoMate-H3-FL2VA](https://huggingface.co/TaoLiveAIGC/TaoMate-H3-FL2VA), to our knowledge the first real-time streaming first/last-frame-to-audio-video (FL2VA) model.** Three-step generation combines first/last-frame control with continuous audio-video KV caching.
-- 🤩2026/09/08: We first migrate MiniMax H3 to [TaoMate](https://github.com/TaoLiveAIGC/TaoMate) (T2AV) for streaming. The new models of complete streaming FL2AV and Ref2AV are on the way. Please stay tuned!❤️
+- **2026/11/10:** Introducing [TaoMate-R1](https://huggingface.co/TaoLiveAIGC/TaoMate-R1)
+  for Ref2AV, with inference code and opening/continuation LoRA weights. Image
+  and video references guide three-step generation of video and sound together.
+- **2026/11/03:** We release [TaoMate-HD](https://taoliveaigc.github.io/TaoMate-HD/),
+  which uses coarse-to-fine generation to retain visual detail with less
+  high-resolution computation.
+- **2026/10/15:** We release [TaoMate-H3-FL2VA](https://huggingface.co/TaoLiveAIGC/TaoMate-H3-FL2VA)
+  for streaming first/last-frame control with three-step generation and continuous
+  audiovisual KV caching.
+- **2026/09/08:** We introduce streaming T2AV generation with TaoMate-H3,
+  building on [TaoMate](https://github.com/TaoLiveAIGC/TaoMate).
 
 
 ## 🚀 Features
 
-- **Real-time streaming FL2VA** — first/last-frame control with three-step
+- **Reference-to-audio-video generation** — image and video references guide
+  three-step chunkwise generation, with separate opening and continuation LoRAs.
+- **Streaming FL2AV** — first/last-frame control with three-step
   blockwise generation, persistent clean AV-KV, and a global endpoint deadline.
-- **Three-step LoRA streaming generation** — each small chunk uses three
-  Stage3 denoising intervals.
-- **Audio-video joint generation** — speech, sound, and video are generated on
-  one synchronized timeline.
+- **Three-step LoRA streaming generation** — each chunk uses three denoising steps.
+- **Audio-video generation** — speech, sound, and video share one timeline.
+  Ref2AV generates audio and video jointly; T2AV and FL2AV prepare base-model
+  audio guidance automatically.
 - **Low chunk latency** — each small chunk reaches its final latent state well
   before a full MiniMax H3 request completes.
 - **Long-form continuity** — clean KV cache and integrated audio guidance preserve
@@ -43,26 +51,25 @@ Developed by the **[Alibaba TaoLive AIGC Team](https://github.com/TaoLiveAIGC)**
   sequence parallelism.
 
 ## 🧱 Model Downloads
+
 | Models                |                       Download Link                                           |    Notes                      |
 |-----------------------|-------------------------------------------------------------------------------|-------------------------------|
 | [MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3)        |      🤗 [Huggingface](https://huggingface.co/MiniMaxAI/MiniMax-H3)     | Base model
 | TaoMate-H3 T2AV  |      🤗 [Huggingface](https://huggingface.co/TaoLiveAIGC/TaoMate-H3)         | Our 3-step LoRA weights for T2AV
 | TaoMate-H3 FL2AV       |      🤗 [Hugging Face](https://huggingface.co/TaoLiveAIGC/TaoMate-H3-FL2VA)     | Our 3-step LoRA weights for FL2AV
-| TaoMate-H3 Ref2AV |      **TBD**         |  **TBD**
+| TaoMate-R1 Ref2AV |      🤗 [Hugging Face](https://huggingface.co/TaoLiveAIGC/TaoMate-R1)         | Opening and continuation LoRA weights for Ref2AV
 
-The FL2VA adapter follows the same three-file layout as the T2AV release:
-`config.json`, `adapter_config.json`, and `adapter_model.safetensors`.
-It preserves the online generator weights in float32 and includes the inference
-configuration; optimizer state, EMA, and training-only score models are excluded.
+T2AV and FL2AV each use one adapter. TaoMate-R1 uses two adapters: an opening
+bank for the first chunk and a continuation bank for the remaining chunks.
 
 
-## 🛠️ T2AV Installation
+## 🛠️ Installation
 
 ### Requirements
 
 - Linux
 - Python 3.10 or 3.11
-- NVIDIA Hopper/SM90 GPUs; 8 × H20 96 GB is the validated configuration
+- NVIDIA GPUs with BF16 support; accelerated T2AV uses Hopper/SM90
 - CUDA 12.8 and PyTorch 2.8
 - FFmpeg with H.264 and AAC support
 
@@ -74,14 +81,19 @@ conda activate taomate-h3
 
 pip install torch==2.8.0 torchvision==0.23.0 \
   --index-url https://download.pytorch.org/whl/cu128
-pip install triton==3.4.0 vllm==0.11.1
-
-git clone https://github.com/Dao-AILab/flash-attention.git
-pip install --no-build-isolation ./flash-attention/hopper
 
 git clone https://github.com/TaoLiveAIGC/TaoMate-H3.git
 cd TaoMate-H3
 pip install -e .
+```
+
+Accelerated T2AV additionally uses the following kernels. Ref2AV uses BF16 and
+PyTorch SDPA and does not need this step:
+
+```bash
+pip install triton==3.4.0 vllm==0.11.1
+git clone https://github.com/Dao-AILab/flash-attention.git
+pip install --no-build-isolation ./flash-attention/hopper
 ```
 
 Install FFmpeg on Ubuntu or Debian:
@@ -91,7 +103,10 @@ sudo apt-get update
 sudo apt-get install -y ffmpeg
 ```
 
-Download the MiniMax H3 FL2VA model:
+### Base model and T2AV weights
+
+T2AV and FL2AV use the MiniMax H3 FL2VA partition below. Ref2AV uses only the
+Ref2VA partition; its download command is in the Ref2AV section below.
 
 ```bash
 hf download MiniMaxAI/MiniMax-H3 \
@@ -100,8 +115,8 @@ hf download MiniMaxAI/MiniMax-H3 \
 ```
 
 TaoMate-H3 T2AV LoRA weights are available on
-[Hugging Face](https://huggingface.co/TaoLiveAIGC/TaoMate-H3). The T2AV
-release is the step-3000 generator EMA adapter (rank 128, alpha 128).
+[Hugging Face](https://huggingface.co/TaoLiveAIGC/TaoMate-H3), with LoRA rank 128
+and alpha 128.
 T2AV inference downloads it automatically to `models/TaoMate-H3` on first use.
 To download it in advance:
 
@@ -207,22 +222,25 @@ the Stage3 generation path and excludes the command's internal audio preparation
 A 10-second TaoMate-H3 run contains 24 generation forwards and eight clean-KV
 updates.
 
-## 🎬 FL2VA: real-time streaming first/last-frame control
+## 🎬 FL2AV: streaming first/last-frame control
 
-The FL2VA inference subproject lives in `src/taomate-fl2av`.
-It includes one example: **seated_001 · seated presentation · family living-room organization**.
+FL2AV generates audio and video from a prompt and first/last-frame constraints.
+Its inference subproject lives in `src/taomate-fl2av`, with a seated presentation
+example about living-room organization.
 
 https://github.com/user-attachments/assets/caab7175-219d-4ac0-80d9-e614ce29988e
 
 **30s mode · 770 frames / 32.083333s · 3 requests (7+7+7 blocks)**
 
-Step-300 online generator LoRA · 85-frame final block · Audio: frozen Base10 teacher.
+Three-step generation with an 85-frame final block. The inference command
+prepares the base-model audio used for guidance and the final soundtrack automatically.
 
 [Preview image](assets/fl2va_seated_001_30s_comparison.jpg) · [Download video](assets/fl2va_seated_001_30s_comparison.mp4?raw=true)
 
 | Option | Native block frames | Native output | Requests |
 |---|---|---|---|
 | `--time 30` | `[39] + [34] * 19 + [85]` | 770 frames / 32.083333s | Three continuous requests, seven blocks each |
+| `--time 15` | `[39] + [34] * 8 + [85]` | 396 frames / 16.5s | Two continuous requests |
 | `--time 10` | `[39] + [34] * 4 + [85]` | 260 frames / 10.833333s | One request, six blocks |
 | `--time 5` | `[39,85]` | 124 frames / 5.166667s | One request |
 
@@ -230,18 +248,93 @@ All modes use 24fps, 768×1376, TP2/SP4 on eight GPUs, three-step denoising,
 recent-seven clean AV-KV and one-shot whole-clip decoding.
 
 ```bash
-# Download checkpoint
+# Download FL2AV weights
 hf download TaoLiveAIGC/TaoMate-H3-FL2VA \
   --include "config.json" "adapter_config.json" \
             "adapter_model.safetensors" "LICENSE" "NOTICE" \
   --local-dir models/TaoMate-H3-FL2VA
 
-# Run Taomate-FL2VA
+# Run FL2AV
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python src/taomate-fl2av/infer.py \
-  --time 30 --model-root /absolute/path/models/MiniMax-H3 \
+  --time 30 --model-root models/MiniMax-H3 \
   --checkpoint models/TaoMate-H3-FL2VA \
   --output outputs/seated_001_30
 ```
+
+To use your own first/last frames and prompts, prepare a case JSON using
+`src/taomate-fl2av/examples/seated_001/case.json` as the template and add
+`--case /path/to/case.json`. The result is written to
+`outputs/seated_001_30/result/video.mp4`.
+
+## 🎞️ Ref2AV: TaoMate-R1
+
+TaoMate-R1 accepts a prompt and one or more image or video references. It uses the
+MiniMax H3 **Ref2VA** base model, three denoising steps per chunk, and clean
+audio-video history. The opening chunk uses the cold LoRA; subsequent chunks
+use the warm LoRA. Audio is generated jointly with video.
+
+### Example
+
+The presenter and scene come from the first reference; the mug comes from the
+second. The prompt describes the presentation and its Mandarin dialogue.
+
+| Person and scene reference | Product reference | Generated audio-video |
+|:---:|:---:|:---:|
+| <img src="examples/ref2av/presenter.png" width="220" alt="Person and scene reference"> | <img src="examples/ref2av/product.png" width="220" alt="Mist-blue mug reference"> | https://github.com/user-attachments/assets/8a95695b-3e6a-410f-a82d-e74169b06173|
+
+[Prompt](examples/ref2av_prompt.txt) · 10-second request · 768×1344 · Seed 9111.
+Click the video link to play it with sound.
+
+### Run
+
+Use the environment installed above. Download the Ref2VA base-model partition:
+
+```bash
+hf download MiniMaxAI/MiniMax-H3 \
+  --include "Ref2VA/*" \
+  --local-dir models/MiniMax-H3
+
+hf download TaoLiveAIGC/TaoMate-R1 --local-dir models/TaoMate-R1
+```
+
+The downloaded adapter layout is:
+
+```text
+models/TaoMate-R1/
+├── config.json
+├── cold/
+│   ├── config.json
+│   └── adapter_model.safetensors
+└── warm/
+    ├── config.json
+    └── adapter_model.safetensors
+```
+
+```bash
+python -m taomate_h3.ref2av \
+  --model-root models/MiniMax-H3 \
+  --adapter models/TaoMate-R1 \
+  --prompt-file examples/ref2av_prompt.txt \
+  --reference-image examples/ref2av/presenter.png \
+  --reference-image examples/ref2av/product.png \
+  --duration 10 --resolution 768x1344 --seed 9111 \
+  --gpus 8 --output outputs/ref2av
+```
+
+The command encodes the references and prompt, then generates and decodes the
+complete audio-video sequence to `outputs/ref2av/video.mp4`. Distributed workers
+are started automatically. Repeat `--reference-image` or `--reference-video`
+to provide multiple references; their command-line order is preserved. Prompt
+labels use `<Picture 1>`, `<Picture 2>` and `<Video 1>`. Reference-video audio
+is ignored; these inputs provide visual conditioning only.
+
+Shared options such as `--model-root`, `--adapter`, `--gpus`, `--devices`,
+`--seed`, `--resolution` and `--output` have the same meanings as above. Ref2AV
+uses `--prompt` or `--prompt-file` for a single prompt, with a default seed of
+42 and duration of 10 seconds. Set duration in seconds and resolution as
+`WIDTHxHEIGHT`, with both dimensions divisible by 32.
+The output follows H3's native frame alignment: a 10-second request produces
+243 frames at 24 FPS (10.125 seconds).
 
 ## License
 
@@ -250,7 +343,9 @@ TaoMate-H3 is released under the
 follow the terms of that license.
 
 ## Citation
+
 If you find our work helpful, feel free to cite us.
+
 ```bibtex
 @misc{taomate2026,
       title={TaoMate: Anchor-Guided Memory Bridging Evolving and Reference States for Real-Time Audio-Video Digital Human Generation}, 
@@ -273,3 +368,4 @@ We thank the teams and contributors behind:
 - [FlashAttention](https://github.com/Dao-AILab/flash-attention)
 - [Triton](https://github.com/triton-lang/triton)
 - [vLLM](https://github.com/vllm-project/vllm)
+- [Self Forcing](https://github.com/guandeh17/Self-Forcing)
