@@ -20,7 +20,7 @@ Developed by the **[Alibaba TaoLive AIGC Team](https://github.com/TaoLiveAIGC)**
 
 - **2026/11/10:** Introducing [TaoMate-R1](https://huggingface.co/TaoLiveAIGC/TaoMate-R1)
   for Ref2AV, with inference code and opening/continuation LoRA weights. Image
-  and video references guide three-step generation of video and sound together.
+  and video references guide three-step generation of video and sound together. Our technical report is released on [arxiv](https://arxiv.org/abs/2611.14307). 
 - **2026/11/03:** We release [TaoMate-HD](https://taoliveaigc.github.io/TaoMate-HD/),
   which uses coarse-to-fine generation to retain visual detail with less
   high-resolution computation.
@@ -347,6 +347,16 @@ follow the terms of that license.
 If you find our work helpful, feel free to cite us.
 
 ```bibtex
+@misc{gan2026taomater1temporalrolespecialization,
+      title={TaoMate-R1: Temporal Role Specialization for Streaming Multi-Reference Video Generation}, 
+      author={Qijun Gan and Chenwei Zhang and Xinyang Li and Meiguang Jin and Junfeng Ma},
+      year={2026},
+      eprint={2611.14307},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2611.14307}, 
+}
+
 @misc{taomate2026,
       title={TaoMate: Anchor-Guided Memory Bridging Evolving and Reference States for Real-Time Audio-Video Digital Human Generation}, 
       author={Qijun Gan and Chenwei Zhang and Meiguang Jin and Junfeng Ma and Qiu Shen},
